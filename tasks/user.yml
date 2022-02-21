@@ -1,0 +1,5 @@
+---
+- name: Create Kibana user
+  user:
+    name: kibana-user
+    shell: /bin/bash

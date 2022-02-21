@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check local log
+      slurp:
+        src: /usr/share/kibana/kibana.log
+      register: logs
+    - name: Create log message
+      set_fact:
+        debug_log_msg: "{{ logs['content'] | b64decode }}"
+    - name: Ensure log-file is created
+      assert:
+        that:
+          - "'http server running at' in debug_log_msg"
+    - name: Check web-server
+      shell: curl http://localhost:5601
+      register: web_server_msg
+    - name: Ensure web-server is running
+      assert:
+        that:
+          - "'Failed to connect' not in web_server_msg.stdout"

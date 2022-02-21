@@ -1,0 +1,10 @@
+---
+- name: Run Kibana
+  shell: /usr/share/kibana/bin/kibana >/dev/null 2>&1 &
+  args:
+    executable: /bin/bash
+  become_user: kibana-user
+  become_method: su
+  become: yes
+  register: run_kibana
+  changed_when: "run_kibana.rc != 0"

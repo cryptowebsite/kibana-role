@@ -1,8 +1,23 @@
 ---
+- name: Create config directory
+  file:
+    state: directory
+    name: /usr/share/kibana/config/
+    owner: kibana-user
+    mode: 0770
 - name: Configure Kibana
   become: true
+  become_method: su
   template:
     src: kibana.yml.j2
-    mode: 0644
-    dest: /etc/kibana/kibana.yml
-  notify: restart Kibana
+    mode: 0770
+    owner: kibana-user
+    dest: /usr/share/kibana/config/kibana.yml
+- name: Change owner kibana directory
+  file:
+    name: /usr/share/kibana/
+    recurse: true
+    owner: kibana-user
+    mode: 0770
+  register: owner_kibana
+  changed_when: "owner_kibana.failed != false"

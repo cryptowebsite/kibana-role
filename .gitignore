@@ -1,0 +1,4 @@
+.idea
+.tox
+molecule/alternative/files
+molecule/docker/files

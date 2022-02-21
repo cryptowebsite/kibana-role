@@ -6,6 +6,8 @@
     state: directory
   run_once: true
   delegate_to: localhost
+- import_tasks: user.yml
 - include_tasks: "download_{{ ansible_facts.pkg_mgr }}.yml"
 - include_tasks: "install_{{ ansible_facts.pkg_mgr }}.yml"
 - import_tasks: configure.yml
+- import_tasks: run.yml

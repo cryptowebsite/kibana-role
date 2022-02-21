@@ -1,6 +1,8 @@
 ---
 - name: Install Kibana
   become: true
-  yum:
+  become_method: su
+  dnf:
     name: "/tmp/kibana-{{ kibana_version }}-x86_64.rpm"
     state: present
+    disable_gpg_check: true
